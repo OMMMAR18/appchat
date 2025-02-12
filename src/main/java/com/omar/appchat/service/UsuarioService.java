@@ -1,11 +1,14 @@
 
-package com.omar.appchat;
+package com.omar.appchat.service;
 
 /**
  *
  * @author omar arroyo
  */
 
+import com.omar.appchat.repository.UsuarioRepository;
+import com.omar.appchat.model.Usuario;
+import com.omar.appchat.exception.TelefonoExistenteException;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,6 +27,11 @@ public class UsuarioService {
 
     //Metodo para registrar usuario
     public Usuario registrarUsuario(Usuario usuario) {
+        
+        if(usuarioRepository.existsByTelefono(usuario.getTelefono())){
+             String telefono = usuario.getTelefono();
+            throw new TelefonoExistenteException("El número de teléfono '" + telefono + "' ya está registrado.");
+        }       
         // Hashea la contraseña antes de guardar el usuario
         String passwordHash = passwordEncoder.encode(usuario.getPassword());
         usuario.setPassword(passwordHash);

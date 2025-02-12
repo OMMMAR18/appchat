@@ -1,6 +1,7 @@
 
-package com.omar.appchat;
+package com.omar.appchat.model;
 
+import com.omar.appchat.model.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

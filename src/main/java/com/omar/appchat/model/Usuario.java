@@ -1,5 +1,5 @@
 
-package com.omar.appchat;
+package com.omar.appchat.model;
 
 /**
  *
@@ -7,8 +7,10 @@ package com.omar.appchat;
  */
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Size; //para validar el tamaño
+import jakarta.validation.constraints.Pattern;   //para validar digitos
 import java.util.UUID;
 import java.time.OffsetDateTime;     
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,12 +30,13 @@ public class Usuario {
     @Column (name = "apellido", columnDefinition = "TEXT", nullable = false)
     private String apellido;
         
-    @Column (name = "telefono", columnDefinition = "TEXT", nullable = false)
-    @Size (min=10, max = 10, message="El numero de telefono debe tener 10 caracteres")
+    @Column (name = "telefono", columnDefinition = "TEXT", nullable = false, unique = true)
+    @Size (min=10, max = 10, message="El numero de telefono debe tener 10 digitos")
+    @Pattern(regexp = "^[0-9]+$", message = "El numero de telefono solo admite numeros")
     private String telefono;
     
     @Column (name = "password", columnDefinition = "TEXT", nullable = false)
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Solo se incluye en la deserialización
     private String password;
     
     @Column (name = "fecha_alta", columnDefinition = "TIMESTAMPTZ", nullable = false)
@@ -82,6 +85,7 @@ public class Usuario {
 
     
     // Método getter (no es necesario deshashear, ya que el hash es irreversible)
+    @JsonIgnore // Evita que el password se incluya en la respuesta JSON
     public String getPassword() {
         return this.password;
     }
