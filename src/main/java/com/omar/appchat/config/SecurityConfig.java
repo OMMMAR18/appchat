@@ -16,7 +16,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .authorizeHttpRequests()
-            .requestMatchers("/api/v01/register").permitAll()  // Permitir acceso sin autenticación
+            .requestMatchers("/api/v01/login","/api/v01/register").permitAll()  // Permitir acceso sin autenticación
+           // .requestMatchers("/api/v01/login").permitAll()  // Permitir acceso sin autenticación
             .anyRequest().authenticated()  // Requiere autenticación para otros endpoints
             .and()
             .httpBasic().disable();  // Deshabilita la autenticación básica

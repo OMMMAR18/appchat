@@ -41,7 +41,8 @@ public class UsuarioService {
     }
     
     // Método para consultar usuario por su ID
-    public Optional<Usuario> consultarUsuarioPorId(UUID id) {
-        return usuarioRepository.findById(id);
+    //public Optional<Usuario> consultarUsuarioPorId(UUID id) {
+    public Optional<Usuario> findByTelefono(String telefono) {    
+        return usuarioRepository.findByTelefono(telefono);
     }
 }
